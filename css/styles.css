@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+video {
+  display: none;
+}
+
+canvas {
+  width: 100vw;
+  height: 100vh;
+}
+
+.sepia {
+  filter: sepia(100%);
+}
+
+.grayscale {
+  filter: grayscale(100%);
+}
+
+.rocknroll {
+  filter: hue-rotate(180deg);
+}
