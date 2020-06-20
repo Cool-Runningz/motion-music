@@ -1,7 +1,7 @@
 const modelParams = {
   flipHorizontal: true, // flip e.g for video
   imageScaleFactor: 0.7, // reduce input image size for gains in speed.
-  maxNumBoxes: 2, // maximum number of boxes to detect
+  maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
   scoreThreshold: 0.8, // confidence threshold for predictions.
 };
@@ -18,22 +18,18 @@ const canvas = document.getElementsByTagName("canvas")[0];
 const context = canvas.getContext("2d");
 let model;
 
-console.log("Canvas", canvas);
-console.log("video: ", video);
-
 handTrack.load().then((_model) => {
   // Initial interface after model load.
   // Store model in global model variable
   model = _model;
   model.setModelParameters(modelParams);
-  console.log("Loading model: ", model);
 });
 
 // Returns a promise
 handTrack.startVideo(video).then(function (status) {
   if (status) {
-    console.log("Video started: ", status);
     runDetection();
+    document.getElementById("loading").remove();
   } else {
     console.log("Please enable video");
   }
@@ -45,8 +41,8 @@ function applyFilter(filterType) {
 }
 
 function drawText(text, x, y) {
-  const color = "white";
-  const font = "1.5rem Arial";
+  const color = "black";
+  const font = "1.5rem Rammetto One";
 
   context.font = font;
   context.fillStyle = color;
@@ -55,7 +51,6 @@ function drawText(text, x, y) {
 
 function runDetection() {
   model.detect(video).then((predictions) => {
-    console.log("TESTING Predictions: ", predictions);
     //Render hand predictions to be displayed on the canvas
     model.renderPredictions(predictions, canvas, context, video);
 
@@ -67,14 +62,10 @@ function runDetection() {
     requestAnimationFrame(runDetection);
 
     if (predictions.length > 0) {
-      /* console.log("Predictions: ", predictions); */
       let x = predictions[0].bbox[0];
       let y = predictions[0].bbox[1];
-      let score = predictions[0].score;
-      /* console.log("x: ", x);
-      console.log("y: ", y);
-      console.log("confidence: ", score); */
 
+      //Apply proper music source and filter based on hand position
       if (y <= 100) {
         if (x <= 150) {
           //ROCK
