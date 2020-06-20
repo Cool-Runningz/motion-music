@@ -6,10 +6,19 @@ const modelParams = {
   scoreThreshold: 0.8, // confidence threshold for predictions.
 };
 
-const sources = {
-  classical: "https://ccrma.stanford.edu/~jos/mp3/oboe-bassoon.mp3",
-  jazz: "https://ccrma.stanford.edu/~jos/mp3/JazzTrio.mp3",
-  rock: "https://ccrma.stanford.edu/~jos/mp3/gtr-dist-jimi.mp3",
+const genres = {
+  classical: {
+    filter: "sepia",
+    source: "https://ccrma.stanford.edu/~jos/mp3/oboe-bassoon.mp3",
+  },
+  jazz: {
+    filter: "grayscale",
+    source: "https://ccrma.stanford.edu/~jos/mp3/JazzTrio.mp3",
+  },
+  rock: {
+    filter: "rocknroll",
+    source: "https://ccrma.stanford.edu/~jos/mp3/gtr-dist-jimi.mp3",
+  },
 };
 
 const video = document.getElementsByTagName("video")[0];
@@ -69,16 +78,16 @@ function runDetection() {
       if (y <= 100) {
         if (x <= 150) {
           //ROCK
-          audio.src = sources.rock;
-          applyFilter("rocknroll");
+          audio.src = genres.rock.source;
+          applyFilter(genres.rock.filter);
         } else if (x >= 250 && x <= 350) {
           //CLASSICAL
-          audio.src = sources.classical;
-          applyFilter("sepia");
+          audio.src = genres.classical.source;
+          applyFilter(genres.classical.filter);
         } else if (x >= 450) {
           //JAZZ
-          audio.src = sources.jazz;
-          applyFilter("grayscale");
+          audio.src = genres.jazz.source;
+          applyFilter(genres.jazz.filter);
         }
         //Play the sound
         audio.play();
