@@ -3,7 +3,7 @@ const modelParams = {
   imageScaleFactor: 0.7, // reduce input image size for gains in speed.
   maxNumBoxes: 1, // maximum number of boxes to detect
   iouThreshold: 0.5, // ioU threshold for non-max suppression
-  scoreThreshold: 0.8, // confidence threshold for predictions.
+  scoreThreshold: 0.9, // confidence threshold for predictions.
 };
 
 const genres = {
@@ -36,7 +36,7 @@ handTrack.load().then((_model) => {
 
 // Returns a promise
 handTrack.startVideo(video).then(function (status) {
-  if (status) {
+  if (status && model) {
     runDetection();
     document.getElementById("loading").remove();
   } else {
