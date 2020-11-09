@@ -36,7 +36,7 @@ handTrack.load().then((_model) => {
 
 // Returns a promise
 handTrack.startVideo(video).then(function (status) {
-  if (status && model) {
+  if (status) {
     runDetection();
     document.getElementById("loading").remove();
   } else {
