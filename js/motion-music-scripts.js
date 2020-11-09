@@ -27,18 +27,22 @@ const canvas = document.getElementsByTagName("canvas")[0];
 const context = canvas.getContext("2d");
 let model;
 
-handTrack.load().then((_model) => {
-  // Initial interface after model load.
-  // Store model in global model variable
-  model = _model;
-  model.setModelParameters(modelParams);
-});
+function loadModel() {
+  handTrack.load().then((_model) => {
+    // Initial interface after model load.
+    // Store model in global model variable
+    model = _model;
+    model.setModelParameters(modelParams);
+    
+    runDetection();
+    document.getElementById("loading").remove();
+  });
+}
 
 // Returns a promise
 handTrack.startVideo(video).then(function (status) {
   if (status) {
-    runDetection();
-    document.getElementById("loading").remove();
+    loadModel()
   } else {
     console.log("Please enable video");
   }
